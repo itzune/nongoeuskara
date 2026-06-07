@@ -8,7 +8,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build && npm run copy-wasm",
-    "copy-wasm": "cp node_modules/fasttext.wasm.js/dist/core/fastText.common.wasm dist/",
+    "copy-wasm": "cp node_modules/fasttext.wasm.js/dist/core/fastText.common.wasm dist/assets/",
     "preview": "vite preview",
     "deploy": "npm run build && gh-pages -d dist"
   },

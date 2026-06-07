@@ -35,13 +35,11 @@ let dialectModel = null;
 let _loaded = false;
 
 // ── Load WASM module and models ──
-const WASM_PATH = import.meta.env.BASE_URL + "fastText.common.wasm";
-
 async function getFastText() {
   const { getFastTextClass, getFastTextModule } = await import("fasttext.wasm.js");
-  // Provide a wrapper that sets wasmPath so the WASM binary is found at the repo root
-  const moduleWithPath = () => getFastTextModule({ wasmPath: WASM_PATH });
-  const FastTextClass = await getFastTextClass({ getFastTextModule: moduleWithPath });
+  // The WASM binary is in dist/assets/ alongside the JS bundles,
+  // so the default locateFile resolution (scriptDirectory + url) works.
+  const FastTextClass = await getFastTextClass({ getFastTextModule });
   return new FastTextClass();
 }
 
