@@ -25,11 +25,11 @@ const el = {
 const EXAMPLES = [
   {
     dialect: "batua",
-    text: "Euskal Herriko Unibertsitateak ikastaro berria antolatu du datorren ikasturterako.",
+    text: "Euskararen normalizazioak aurrera jarraitzen du ikastetxe guztietan, gero eta ikasle gehiagok hautatzen baitu euskara ardatz.",
   },
   {
     dialect: "batua",
-    text: "Emakumeen aurkako indarkeria matxistaren biktima izan diren emakumeei buruzko dokumentala aurkeztu dute gaur.",
+    text: "Osasun sailak txertaketa kanpaina berria iragarri du datorren astelehenean hasiko dela adineko pertsonentzat.",
   },
   {
     dialect: "western",
@@ -37,23 +37,23 @@ const EXAMPLES = [
   },
   {
     dialect: "western",
-    text: "Askatasun zibilen historixa tamalgarri horretaz gain, beste hainbat kontu argitzeke dagoz.",
+    text: "Modu bakarra aurkitu aben, eta nazkagarrixe eitten bajakon be, heldu ein biher aurrera jarraitzeko.",
   },
   {
     dialect: "central",
-    text: "Gu inguru hontan bizi gea, eta oso gustora gainera.",
+    text: "Ezarpen-proiektu baten fase hori osatzeko, gitxi gorabehera 17 hillabete bihar'txu esan zuten arduradunek.",
   },
   {
     dialect: "central",
-    text: "Ezarpen-proiektu baten fase hori osatzeko, gitxi gorabehera 17 hillabete bihar'txu SCRk.",
+    text: "Kolpian ondoriyoz, asko hil in tzian, eta beste batzuk larri zauritu, baina erreskatea berehala heldu zan.",
   },
   {
     dialect: "nav-lab",
-    text: "Bena atzuek eskarmentu haundioa zan berko lukete holako lanetan aritzeko.",
+    text: "Bena atzuek eskarmentu haundioa zan berko lukete holako lanetan aritzeko, etxekoen erranetan fidatuta.",
   },
   {
     dialect: "nav-lab",
-    text: "Ene exenpluik maiteena igela ta uliaina da, beti kontatzen duten bezela.",
+    text: "Ene exenpluik maiteena igela ta uliaina da, beti kontatzen duten bezela, irriz irri.",
   },
 ];
 
