@@ -1,0 +1,53 @@
+# Zeineuski WASM — Web Demo
+
+Basque (Euskara) dialect identification running entirely in the browser
+using WebAssembly (fastText).
+
+Try it: https://xezpeleta.github.io/zeineuski-wasm
+
+## How it works
+
+1. A 423KB WebAssembly module (fastText compiled via Emscripten) loads in the browser
+2. Two compact fastText models (34MB total, hosted on Hugging Face CDN) are downloaded on first use
+3. Hierarchical 2-step classification:
+   - Binary: batua vs dialectal
+   - Dialect: 5-class euskalkiak
+
+## Model
+
+| Model | Size | XNLI Accuracy |
+|-------|------|---------------|
+| Binary (web) | 21MB | — |
+| Dialect (web) | 13MB | — |
+| **Total** | **34MB** | **96.84%** |
+
+Trained with dim=50, bucket=20K/50K — compressed from the original 1.6GB.
+
+Models are hosted at [itzune/zeineuski](https://huggingface.co/itzune/zeineuski).
+
+## Development
+
+```bash
+npm install
+npm run dev      # Start dev server at localhost:3000
+npm run build    # Build for production
+npm run preview  # Preview production build
+```
+
+The WASM binary (`fastText.common.wasm`) must be placed in `public/`:
+```bash
+cp node_modules/fasttext.wasm.js/dist/core/fastText.common.wasm public/
+```
+
+## Deployment
+
+Deploy to GitHub Pages:
+```bash
+npm run build
+# Push dist/ to gh-pages branch
+```
+
+## Related
+
+- [Zeineuski main repo](https://github.com/xezpeleta/zeineuski) — Python/CLI tools
+- [itzune/zeineuski](https://huggingface.co/itzune/zeineuski) — Hugging Face models

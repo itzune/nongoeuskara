@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="eu">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Zeineuski — Euskalkien identifikazioa</title>
+  <style>
+    :root {
+      --bg: #1a1a2e;
+      --card: #16213e;
+      --text: #e0e0e0;
+      --accent: #e63946;
+      --green: #2a9d8f;
+      --yellow: #e9c46a;
+      --muted: #888;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .container { max-width: 800px; width: 100%; padding: 2rem 1rem; }
+    h1 {
+      font-size: 2rem;
+      text-align: center;
+      margin-bottom: 0.5rem;
+    }
+    h1 span { color: var(--accent); }
+    .subtitle { text-align: center; color: var(--muted); margin-bottom: 2rem; font-size: 0.9rem; }
+
+    .status-bar {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1rem;
+      background: var(--card);
+      border-radius: 8px;
+      margin-bottom: 1.5rem;
+      font-size: 0.85rem;
+    }
+    .status-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+    .status-dot.loading { background: var(--yellow); animation: pulse 1s infinite; }
+    .status-dot.ready { background: var(--green); }
+    .status-dot.error { background: var(--accent); }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+    .model-info { color: var(--muted); font-size: 0.75rem; }
+
+    textarea {
+      width: 100%;
+      min-height: 120px;
+      padding: 1rem;
+      background: var(--card);
+      border: 1px solid #333;
+      border-radius: 8px;
+      color: var(--text);
+      font-size: 1rem;
+      font-family: inherit;
+      resize: vertical;
+      margin-bottom: 1rem;
+      transition: border-color 0.2s;
+    }
+    textarea:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+
+    .buttons { display: flex; gap: 0.75rem; margin-bottom: 1.5rem; }
+    button {
+      padding: 0.6rem 1.5rem;
+      border: none;
+      border-radius: 6px;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    button:disabled { opacity: 0.5; cursor: not-allowed; }
+    .btn-primary { background: var(--accent); color: white; }
+    .btn-primary:hover:not(:disabled) { background: #c1121f; }
+    .btn-secondary { background: var(--card); color: var(--text); border: 1px solid #444; }
+    .btn-secondary:hover:not(:disabled) { background: #222; }
+    .btn-small { padding: 0.35rem 0.8rem; font-size: 0.8rem; }
+
+    .result {
+      background: var(--card);
+      border-radius: 8px;
+      padding: 1.5rem;
+      display: none;
+    }
+    .result.visible { display: block; }
+
+    .dialect-badge {
+      display: inline-block;
+      padding: 0.3rem 0.8rem;
+      border-radius: 4px;
+      font-weight: 600;
+      font-size: 1.1rem;
+      margin-bottom: 0.75rem;
+    }
+    .badge-batua { background: #2a9d8f; }
+    .badge-western { background: #e76f51; }
+    .badge-central { background: #264653; }
+    .badge-nav-lab { background: #6d597a; }
+    .badge-uncertain { background: var(--muted); }
+
+    .confidence-bar {
+      height: 6px;
+      background: #333;
+      border-radius: 3px;
+      margin-bottom: 1rem;
+    }
+    .confidence-fill {
+      height: 100%;
+      border-radius: 3px;
+      background: var(--green);
+      transition: width 0.3s ease;
+    }
+    .conf-text { font-size: 0.85rem; color: var(--muted); margin-bottom: 0.25rem; }
+
+    .predictions-list { list-style: none; margin-top: 0.75rem; }
+    .predictions-list li {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.35rem 0;
+      border-bottom: 1px solid #222;
+      font-size: 0.9rem;
+    }
+    .pred-label { font-weight: 500; }
+    .pred-conf { color: var(--muted); }
+
+    .examples { margin-top: 2rem; }
+    .examples h3 { font-size: 0.85rem; color: var(--muted); margin-bottom: 0.75rem; text-transform: uppercase; letter-spacing: 1px; }
+    .example-chips { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .example-chip {
+      padding: 0.4rem 0.8rem;
+      background: var(--card);
+      border: 1px solid #333;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .example-chip:hover { border-color: var(--accent); background: #1e2a4a; }
+    .chip-label { font-size: 0.65rem; color: var(--muted); display: block; margin-bottom: 2px; }
+
+    footer {
+      text-align: center;
+      padding: 2rem;
+      color: var(--muted);
+      font-size: 0.75rem;
+    }
+    footer a { color: var(--accent); text-decoration: none; }
+    .model-size-hint { background: var(--card); border-radius: 8px; padding: 1rem; margin-bottom: 1rem; font-size: 0.8rem; color: var(--muted); }
+    .model-size-hint .green { color: var(--green); }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1><span>Z</span>eineuski</h1>
+    <p class="subtitle">Euskalkien identifikazio automatikoa — Dialect identification for Basque</p>
+
+    <div class="status-bar">
+      <div class="status-dot loading" id="statusDot"></div>
+      <span id="statusText">Modelak kargatzen… Loading models…</span>
+    </div>
+    <div class="model-size-hint" id="sizeHint" style="display:none">
+      <span class="green">✓</span> Models loaded: <strong id="variantSize"></strong>MB total
+      (fastText WASM, dim=50)
+    </div>
+
+    <textarea
+      id="input"
+      placeholder="Idatzi euskarazko testu bat hemen… / Write Basque text here…"
+    ></textarea>
+
+    <div class="buttons">
+      <button class="btn-primary" id="btnPredict" disabled>🔍 Identifikatu / Identify</button>
+      <button class="btn-secondary" id="btnClear">✕ Garbitu / Clear</button>
+    </div>
+
+    <div class="result" id="result">
+      <div id="dialectBadge"></div>
+      <div class="conf-text">Konfiantza / Confidence: <span id="confidence">—</span></div>
+      <div class="confidence-bar">
+        <div class="confidence-fill" id="confidenceFill" style="width: 0%"></div>
+      </div>
+      <div class="conf-text">Top-3 iragarpenak / Predictions:</div>
+      <ul class="predictions-list" id="predictionsList"></ul>
+    </div>
+
+    <div class="examples">
+      <h3>Adibideak / Examples</h3>
+      <div class="example-chips" id="exampleChips"></div>
+    </div>
+  </div>
+
+  <footer>
+    <a href="https://huggingface.co/itzune/zeineuski" target="_blank">itzune/zeineuski</a>
+    ·
+    <a href="https://github.com/xezpeleta/zeineuski" target="_blank">GitHub</a>
+    ·
+    powered by fastText WASM · 34MB model
+  </footer>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
