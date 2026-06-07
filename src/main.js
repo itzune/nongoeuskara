@@ -89,9 +89,11 @@ function buildExampleCards() {
       );
       card.classList.add("active");
 
-      // Set text + auto-predict
+      // Set text without auto-predicting — user clicks Identify manually
       el.input.value = ex.text;
-      doPredict();
+
+      // Clear previous results
+      el.result.classList.remove("visible");
     });
   });
 }

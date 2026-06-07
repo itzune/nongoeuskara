@@ -35,11 +35,29 @@ let dialectModel = null;
 let _loaded = false;
 
 // ── Load WASM module and models ──
+function getWasmPath() {
+  // In production (GitHub Pages), the WASM is served from /zeineuski-wasm/assets/
+  // In dev (Vite), it's in /zeineuski-wasm/public/ → served at root level.
+  // Vite's module resolution causes locateFile to get scriptDirectory="/"
+  // instead of the base path, so we need to compute it ourselves in dev.
+  if (typeof window !== "undefined" && window.location) {
+    const loc = window.location;
+    if (loc.hostname === "localhost" || loc.hostname === "127.0.0.1") {
+      // Dev mode: public/ files are served at the base path root
+      const base = import.meta.env.BASE_URL || "/";
+      return base + "fastText.common.wasm";
+    }
+  }
+  // Production: let default locateFile handle it (JS and WASM in same dir)
+  return undefined;
+}
+
 async function getFastText() {
   const { getFastTextClass, getFastTextModule } = await import("fasttext.wasm.js");
-  // The WASM binary is in dist/assets/ alongside the JS bundles,
-  // so the default locateFile resolution (scriptDirectory + url) works.
-  const FastTextClass = await getFastTextClass({ getFastTextModule });
+  const FastTextModule = await getFastTextModule({
+    wasmPath: getWasmPath(),
+  });
+  const FastTextClass = await getFastTextClass({ getFastTextModule: () => FastTextModule });
   return new FastTextClass();
 }
 
@@ -76,9 +94,9 @@ export function predict(text, threshold = 0.7) {
   }
 
   // Step 1: Binary
-  const [binLabels, binProbs] = binaryModel.predict(text, 1);
-  const binLabel = binLabels[0];
-  const binConf = binProbs[0];
+  // predict() returns Vector<[number, string]> (probability, label)
+  const binResult = binaryModel.predict(text, 1);
+  const [binConf, binLabel] = binResult.get(0);
 
   if (binLabel === "__label__batua") {
     return {
@@ -90,17 +108,23 @@ export function predict(text, threshold = 0.7) {
   }
 
   // Step 2: Dialect
-  const [labels, probs] = dialectModel.predict(text, 3);
-
-  const topLabel = labels[0].replace("__label__", "");
-  const topConf = probs[0];
+  const result = dialectModel.predict(text, 3);
+  const k = Math.min(3, result.size());
 
   const predictions = [];
-  for (let i = 0; i < labels.length; i++) {
+  let topLabel = null;
+  let topConf = 0;
+  for (let i = 0; i < k; i++) {
+    const [conf, label] = result.get(i);
+    const cleanLabel = label.replace("__label__", "");
     predictions.push({
-      label: labels[i].replace("__label__", ""),
-      confidence: probs[i],
+      label: cleanLabel,
+      confidence: conf,
     });
+    if (conf > topConf) {
+      topConf = conf;
+      topLabel = cleanLabel;
+    }
   }
 
   if (topConf < threshold) {

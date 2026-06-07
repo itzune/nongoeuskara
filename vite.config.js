@@ -15,4 +15,18 @@ export default defineConfig({
     target: "esnext",
     outDir: "dist",
   },
+  // Plugin to serve .wasm with correct MIME type in dev
+  plugins: [
+    {
+      name: "wasm-mime-fix",
+      configureServer(server) {
+        server.middlewares.use((req, res, next) => {
+          if (req.url?.endsWith(".wasm")) {
+            res.setHeader("Content-Type", "application/wasm");
+          }
+          next();
+        });
+      },
+    },
+  ],
 });
