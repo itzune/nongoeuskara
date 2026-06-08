@@ -1,6 +1,5 @@
 import { defineConfig } from "vite";
 
-// GitHub Pages deploys to /euskalkid/
 const base = "/euskalkid/";
 
 export default defineConfig({
@@ -14,6 +13,12 @@ export default defineConfig({
   build: {
     target: "esnext",
     outDir: "dist",
+    rollupOptions: {
+      input: {
+        main: "index.html",
+        azpieuskalki: "azpieuskalki.html",
+      },
+    },
   },
   // Plugin to serve .wasm with correct MIME type in dev
   plugins: [
