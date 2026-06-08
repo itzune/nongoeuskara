@@ -574,7 +574,7 @@
       try {
         await loadModel((msg) => {
           el.statusText.textContent = msg;
-          if (msg === "✅ Ready") {
+          if (msg === "Ready") {
             el.statusDot.className = "status-dot ready";
             el.btnPredict.disabled = false;
             el.sizeHint.style.display = "block";
