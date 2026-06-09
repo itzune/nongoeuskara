@@ -129,6 +129,46 @@ async function loadMap() {
       mapHint.style.display = "none";
     }, { once: true });
   }
+
+  // Add invisible hover zones for geocoded towns not already in the SVG.
+  // These are 202 towns from Wikidata that exist as unnamed polygons in the map.
+  try {
+    const labelResp = await fetch("./town_labels.json");
+    const townLabels = await labelResp.json();
+    const ns = "http://www.w3.org/2000/svg";
+    let hoverCount = 0;
+    for (const [name, pos] of Object.entries(townLabels)) {
+      const rect = document.createElementNS(ns, "rect");
+      rect.setAttribute("x", pos.x - 6);
+      rect.setAttribute("y", pos.y - 4);
+      rect.setAttribute("width", 12);
+      rect.setAttribute("height", 8);
+      rect.setAttribute("fill", "transparent");
+      rect.setAttribute("pointer-events", "all");
+      rect.dataset.townName = name;
+      rect.addEventListener("mouseenter", (e) => {
+        const tname = e.target.dataset.townName;
+        if (tname) {
+          tooltip.textContent = tname;
+          tooltip.classList.add("visible");
+          moveTooltip(e);
+        }
+      });
+      rect.addEventListener("mouseleave", () => {
+        tooltip.classList.remove("visible");
+      });
+      rect.addEventListener("mousemove", (e) => {
+        if (tooltip.classList.contains("visible")) {
+          moveTooltip(e);
+        }
+      });
+      svgRoot.appendChild(rect);
+      hoverCount++;
+    }
+    console.log(`[map] Added ${hoverCount} hover zones for geocoded towns`);
+  } catch (err) {
+    console.warn("[map] Could not load town labels:", err.message);
+  }
 }
 
 function highlightLabel(modelLabel) {
