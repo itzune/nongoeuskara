@@ -86,12 +86,8 @@ async function loadMap() {
   const resp = await fetch("./map.svg");
   const text = await resp.text();
 
-  const parser = new DOMParser();
-  const svgDoc = parser.parseFromString(text, "image/svg+xml");
-  const importedSvg = svgDoc.documentElement;
-
-  container.innerHTML = "";
-  container.appendChild(document.importNode(importedSvg, true));
+  // Use innerHTML instead of DOMParser+importNode to preserve all SVG attributes
+  container.innerHTML = text;
   svgRoot = container.querySelector("svg");
   if (!svgRoot) return;
 
