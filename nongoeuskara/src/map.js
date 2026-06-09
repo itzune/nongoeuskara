@@ -183,8 +183,19 @@ function resetHighlight() {
 
 /** Tooltip **/
 function showTooltip(event, path, layerName) {
-  const name = path.getAttribute("id") || "";
-  if (name && !name.startsWith("path")) {
+  // Try path id first, then parent <g> id (for nested groups like Berrioplano)
+  let name = path.getAttribute("id") || "";
+  if (!name || name.startsWith("path")) {
+    const parent = path.closest("g[id]");
+    if (parent && !parent.hasAttributeNS?.(NS_INKSCAPE, "label")) {
+      const parentId = parent.getAttribute("id") || "";
+      if (parentId && !parentId.startsWith("g") && !parentId.startsWith("layer") && !parentId.startsWith("svg")) {
+        name = parentId;
+      }
+    }
+  }
+  
+  if (name && !name.startsWith("path") && !name.startsWith("g") && !name.startsWith("layer") && !name.startsWith("svg")) {
     tooltip.textContent = `${name} — ${layerName}`;
   } else {
     tooltip.textContent = layerName;
