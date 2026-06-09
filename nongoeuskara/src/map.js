@@ -1,22 +1,28 @@
 /**
- * Nongoeuskara — Load original SVG, render in monochrome grey,
- * highlight dialect zones on hover/click/match.
+ * Nongoeuskara — Monochrome map with model-label-based zone highlighting.
+ *
+ * Loads the remapped SVG where each <g> and <path> has a `data-model-label`
+ * attribute matching one of the 12 tier-3 azpieuskalki model output classes.
+ *
+ * Default: all paths in muted grey.
+ * On hover/click: highlight all SVG elements with a matching data-model-label.
+ * Programmatic API: window.euskalkid.highlightLabel("mendebal-sartaldea")
  */
 
-const LAYERS = [
-  { label: "Zuberoa",                     fill: "#ccaaff", towns: 36 },
-  { label: "Erronkari",                   fill: "#d8bfd8", towns: 14 },
-  { label: "Zaraitzu",                    fill: "#f5deb3", towns: 28 },
-  { label: "Aezkoa",                      fill: "#d1c821", towns: 20 },
-  { label: "Nafarroa Beherea",            fill: "#d38d5f", towns: 102 },
-  { label: "Baztan",                      fill: "#ffd00f", towns: 2 },
-  { label: "Hegoaldeko Nafarroa Garaia",  fill: "#5fd35f", towns: 375 },
-  { label: "Iparraldeko Nafarroa Garaia", fill: "#ffff3e", towns: 115 },
-  { label: "Burunda",                     fill: "#dedede", towns: 200 },
-  { label: "Lapurdi",                     fill: "#ffa955", towns: 24 },
-  { label: "Erdialde",                    fill: "#aaeeff", towns: 220 },
-  { label: "Mendebalde",                  fill: "#ffeabf", towns: 435 },
-];
+const MODEL_LABELS = {
+  "mendebal-sartaldea":   { name: "Mendebal-sartaldea",    color: "#8b5cf6" },
+  "mendebal-sortaldea":   { name: "Mendebal-sortaldea",    color: "#7c3aed" },
+  "erdialde-sartaldea":   { name: "Erdialde-sartaldea",    color: "#06b6d4" },
+  "erdialde-sortaldea":   { name: "Erdialde-sortaldea",    color: "#0ea5e9" },
+  "nafar-ipar-sartaldea": { name: "Nafar ipar-sartaldea",  color: "#f59e0b" },
+  "nafar-erdigunea":      { name: "Nafar erdigunea",        color: "#10b981" },
+  "nafar-hego-sartaldea": { name: "Nafar hego-sartaldea",  color: "#84cc16" },
+  "nafar-sortaldea":      { name: "Nafar sortaldea",        color: "#f97316" },
+  "naflap-sartaldea":     { name: "Naf-lapur sartaldea",    color: "#ec4899" },
+  "naflap-sortaldea":     { name: "Naf-lapur sortaldea",    color: "#d946ef" },
+  "zuberera":             { name: "Zuberera",               color: "#14b8a6" },
+  "ekialde-nafarra":      { name: "Ekialdeko nafarra",      color: "#ef4444" },
+};
 
 const DISABLED_FILL = "#d0d5da";
 const DISABLED_STROKE = "#bcc4cc";
@@ -24,62 +30,87 @@ const DISABLED_STROKE = "#bcc4cc";
 const container = document.getElementById("mapContainer");
 const legend = document.getElementById("legend");
 const tooltip = document.getElementById("tooltip");
-const NS_INKSCAPE = "http://www.inkscape.org/namespaces/inkscape";
 
 let svgRoot = null;
-let highlightedLayer = null;
+let highlightedLabel = null;
+
+const NS_INKSCAPE = "http://www.inkscape.org/namespaces/inkscape";
 
 function buildLegend() {
-  LAYERS.forEach((layer) => {
+  for (const [label, info] of Object.entries(MODEL_LABELS)) {
     const item = document.createElement("div");
     item.className = "legend-item";
-    item.dataset.layer = layer.label;
+    item.dataset.modelLabel = label;
 
     const swatch = document.createElement("div");
     swatch.className = "legend-swatch";
-    swatch.style.backgroundColor = layer.fill;
+    swatch.style.backgroundColor = info.color;
 
     const name = document.createElement("span");
-    name.textContent = layer.label;
+    name.textContent = info.name;
 
     item.append(swatch, name);
 
     item.addEventListener("click", () => {
-      if (highlightedLayer === layer.label) {
+      if (highlightedLabel === label) {
         clearHighlight();
       } else {
-        highlightLayer(layer.label);
+        highlightLabel(label);
       }
     });
 
     legend.appendChild(item);
-  });
+  }
 }
 
-function findLayerGroup(el) {
+/**
+ * Find the model label for a given SVG element.
+ * Checks the element itself and its ancestor groups.
+ */
+function getModelLabel(el) {
+  // Check the element
+  if (el.dataset?.modelLabel) return el.dataset.modelLabel;
+
+  // Walk up ancestor tree
   let current = el;
   while (current && current !== svgRoot) {
-    const label = current.getAttributeNS?.(NS_INKSCAPE, "label");
-    if (label) return { elem: current, label };
+    if (current.dataset?.modelLabel) return current.dataset.modelLabel;
     current = current.parentElement;
   }
   return null;
 }
 
 /**
- * Turn all paths into a uniform muted grey.
+ * Find a human-readable name for the hovered element.
+ */
+function getElementName(el) {
+  // Try path id
+  if (el.id && !el.id.startsWith("path")) return el.id;
+
+  // Try parent <g> id
+  const parent = el.closest("g[id]");
+  if (parent && parent.id) {
+    // Skip if it's an Inkscape-layer <g>
+    if (parent.hasAttributeNS?.(NS_INKSCAPE, "label")) return null;
+    if (!parent.id.startsWith("g") && !parent.id.startsWith("layer")) {
+      return parent.id;
+    }
+  }
+  return null;
+}
+
+/**
+ * Turn all paths into uniform muted grey.
  */
 function greyOutAll() {
   if (!svgRoot) return;
   const paths = svgRoot.querySelectorAll("path");
   paths.forEach((p) => {
-    p.setAttribute("data-original-fill", p.style.fill || p.getAttribute("fill") || "");
-    p.setAttribute("data-original-stroke", p.style.stroke || p.getAttribute("stroke") || "");
     p.style.fill = DISABLED_FILL;
     p.style.fillOpacity = "1";
     p.style.stroke = DISABLED_STROKE;
     p.style.strokeOpacity = "1";
-    p.style.strokeWidth = "";
+    p.style.filter = "";
   });
 }
 
@@ -96,29 +127,33 @@ async function loadMap() {
   svgRoot = container.querySelector("svg");
   if (!svgRoot) return;
 
-  // Make sure SVG fills container
   svgRoot.setAttribute("width", "100%");
   svgRoot.setAttribute("height", "100%");
 
   // Turn all paths grey
   greyOutAll();
 
-  // Attach hover listeners
+  // Attach hover listeners to all paths
   const allPaths = svgRoot.querySelectorAll("path");
   allPaths.forEach((path) => {
     path.addEventListener("mouseenter", (e) => {
-      const group = findLayerGroup(path);
-      if (group) {
-        highlightLayer(group.label);
-        showTooltip(e, path, group.label);
+      const label = getModelLabel(path);
+      if (label) {
+        highlightLabel(label);
+        // Show tooltip with town name + zone
+        const townName = getElementName(path);
+        const zoneName = MODEL_LABELS[label]?.name || label;
+        tooltip.textContent = townName ? `${townName} — ${zoneName}` : zoneName;
+        tooltip.classList.add("visible");
+        moveTooltip(e);
       }
     });
 
     path.addEventListener("mouseleave", () => {
-      if (highlightedLayer !== findLayerGroup(path)?.label) {
+      if (highlightedLabel !== getModelLabel(path)) {
         resetHighlight();
       }
-      hideTooltip();
+      tooltip.classList.remove("visible");
     });
 
     path.addEventListener("mousemove", (e) => {
@@ -128,41 +163,41 @@ async function loadMap() {
 }
 
 /**
- * Highlight one dialect zone with its original color.
+ * Highlight all paths with the given model label.
  */
-function highlightLayer(layerLabel) {
+function highlightLabel(modelLabel) {
+  if (highlightedLabel === modelLabel) return;
   resetHighlight();
 
   if (!svgRoot) return;
 
-  const layerInfo = LAYERS.find((l) => l.label === layerLabel);
+  const info = MODEL_LABELS[modelLabel];
+  const color = info?.color || "#ff0000";
 
-  // Find all layer groups with matching inkscape:label
-  for (const g of svgRoot.querySelectorAll("g")) {
-    const label = g.getAttributeNS?.(NS_INKSCAPE, "label");
-    if (label === layerLabel) {
-      const paths = g.querySelectorAll("path");
-      paths.forEach((p) => {
-        if (layerInfo) {
-          p.style.fill = layerInfo.fill;
-          p.style.fillOpacity = "0.85";
-        }
-        p.style.stroke = "#333";
-        p.style.strokeOpacity = "0.6";
-        p.style.filter = "drop-shadow(0 0 2px rgba(0,0,0,0.25))";
-      });
+  // Find all paths that match this model label (on path or ancestor <g>)
+  const allPaths = svgRoot.querySelectorAll("path");
+  allPaths.forEach((p) => {
+    const pathLabel = getModelLabel(p);
+    if (pathLabel === modelLabel) {
+      p.style.fill = color;
+      p.style.fillOpacity = "0.85";
+      p.style.stroke = "#333";
+      p.style.strokeOpacity = "0.6";
+      p.style.filter = "drop-shadow(0 0 2px rgba(0,0,0,0.25))";
     }
-  }
+  });
 
-  highlightedLayer = layerLabel;
+  highlightedLabel = modelLabel;
+
+  // Update legend
   legend.querySelectorAll(".legend-item").forEach((item) => {
-    item.classList.toggle("active", item.dataset.layer === layerLabel);
+    item.classList.toggle("active", item.dataset.modelLabel === modelLabel);
   });
 }
 
 function clearHighlight() {
   resetHighlight();
-  highlightedLayer = null;
+  highlightedLabel = null;
   legend.querySelectorAll(".legend-item").forEach((item) => {
     item.classList.remove("active");
   });
@@ -176,32 +211,8 @@ function resetHighlight() {
     p.style.fillOpacity = "1";
     p.style.stroke = DISABLED_STROKE;
     p.style.strokeOpacity = "1";
-    p.style.strokeWidth = "";
     p.style.filter = "";
   });
-}
-
-/** Tooltip **/
-function showTooltip(event, path, layerName) {
-  // Try path id first, then parent <g> id (for nested groups like Berrioplano)
-  let name = path.getAttribute("id") || "";
-  if (!name || name.startsWith("path")) {
-    const parent = path.closest("g[id]");
-    if (parent && !parent.hasAttributeNS?.(NS_INKSCAPE, "label")) {
-      const parentId = parent.getAttribute("id") || "";
-      if (parentId && !parentId.startsWith("g") && !parentId.startsWith("layer") && !parentId.startsWith("svg")) {
-        name = parentId;
-      }
-    }
-  }
-  
-  if (name && !name.startsWith("path") && !name.startsWith("g") && !name.startsWith("layer") && !name.startsWith("svg")) {
-    tooltip.textContent = `${name} — ${layerName}`;
-  } else {
-    tooltip.textContent = layerName;
-  }
-  tooltip.classList.add("visible");
-  moveTooltip(event);
 }
 
 function moveTooltip(event) {
@@ -209,17 +220,13 @@ function moveTooltip(event) {
   tooltip.style.top = `${event.clientY + 14}px`;
 }
 
-function hideTooltip() {
-  tooltip.classList.remove("visible");
-}
-
 // Init
 buildLegend();
 loadMap();
 
-// Expose for programmatic use (after model inference)
+// Public API for model integration
 window.euskalkid = {
-  highlightLayer,
+  highlightLabel,
   clearHighlight,
-  LAYERS,
+  MODEL_LABELS,
 };
