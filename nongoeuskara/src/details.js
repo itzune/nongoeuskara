@@ -72,10 +72,15 @@ function section(title, bodyHtml) {
 
 function renderAzpiSection(azpiResult) {
   const labels = window.euskalkid?.MODEL_LABELS || {};
+  const euskalkiOf = window.euskalkid?.EUSKALKI_OF || {};
+  const euskalkiNames = window.euskalkid?.EUSKALKI_NAMES || {};
   const rows = azpiResult.predictions
     .map((p) => {
       const info = labels[p.label];
-      return row(info?.name || p.label, p.confidence, info?.color || "#94a3b8");
+      const dialect = euskalkiOf[p.label];
+      const dialectName = euskalkiNames[dialect] || dialect || "";
+      const fullName = dialectName ? `${dialectName} / ${info?.name || p.label}` : (info?.name || p.label);
+      return row(fullName, p.confidence, info?.color || "#94a3b8");
     })
     .join("");
   return section("3 · Azpieuskalkia (12 klase)", rows || "<p class='detail-empty'>—</p>");
