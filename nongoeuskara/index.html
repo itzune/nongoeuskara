@@ -546,17 +546,27 @@
       lengthWarning.classList.toggle("visible", words > 0 && words < MIN_WORDS);
     }
 
+    function positionTooltip(event) {
+      if (!mapTooltip) return;
+      const gap = 14;
+      const rect = mapTooltip.getBoundingClientRect();
+      const h = rect.height || 60; // estimate if not yet measured
+      let top = event.clientY - h - gap;
+      // If it doesn't fit above, place it below as fallback
+      if (top < 8) top = event.clientY + gap;
+      mapTooltip.style.left = `${event.clientX + gap}px`;
+      mapTooltip.style.top = `${top}px`;
+    }
+
     lengthWarning.addEventListener("mouseenter", (e) => {
       if (!mapTooltip || !lengthWarning.classList.contains("visible")) return;
       mapTooltip.textContent = LENGTH_HINT;
       mapTooltip.classList.add("visible", "multiline");
-      mapTooltip.style.left = `${e.clientX + 14}px`;
-      mapTooltip.style.top = `${e.clientY + 14}px`;
+      positionTooltip(e);
     });
     lengthWarning.addEventListener("mousemove", (e) => {
       if (!mapTooltip?.classList.contains("visible")) return;
-      mapTooltip.style.left = `${e.clientX + 14}px`;
-      mapTooltip.style.top = `${e.clientY + 14}px`;
+      positionTooltip(e);
     });
     lengthWarning.addEventListener("mouseleave", () => {
       mapTooltip?.classList.remove("visible", "multiline");
