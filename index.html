@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Nongoeuskara — Non dago euskara hau?</title>
+  <title>nongoeuskara? — Non dago euskara hau?</title>
   <style>
     :root {
       --color-bg: #f8f9fa;
@@ -93,11 +93,17 @@
     }
     .header h1 {
       font-size: 1.35rem;
-      font-weight: 700;
+      font-weight: 500;
       letter-spacing: -0.02em;
     }
-    .header h1 span {
+    .header h1 .brand-nongo {
       color: var(--color-accent);
+      font-weight: 800;
+    }
+    .header h1 .brand-q {
+      color: var(--color-muted);
+      font-weight: 400;
+      margin-left: 1px;
     }
 
     /* Theme toggle */
@@ -255,7 +261,7 @@
 <body>
   <header class="header">
     <div style="display:flex;align-items:center;gap:12px;">
-      <h1><span>Non</span>goeuskara</h1>
+      <h1><span class="brand-nongo">nongo</span>euskara<span class="brand-q">?</span></h1>
       <div class="prediction-badge" id="predictionBadge">
         <div class="prediction-swatch" id="predictionSwatch"></div>
         <span class="prediction-name" id="predictionName"></span>

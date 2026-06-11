@@ -47,7 +47,7 @@ function getWasmPath() {
   if (typeof window !== "undefined" && window.location) {
     const loc = window.location;
     if (loc.hostname === "localhost" || loc.hostname === "127.0.0.1") {
-      return base + "fastText.common.wasm";
+      return base + "node_modules/fasttext.wasm.js/dist/core/fastText.common.wasm";
     }
   }
   return base + "assets/fastText.common.wasm";
