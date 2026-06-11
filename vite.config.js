@@ -1,6 +1,6 @@
 import { defineConfig } from "vite";
 
-const base = "/euskalkid/";
+const base = "/nongoeuskara/";
 
 export default defineConfig({
   base,
