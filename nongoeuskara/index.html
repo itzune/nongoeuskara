@@ -23,6 +23,9 @@
       --map-mun-fill: #dde2e7;
       --map-mun-stroke: #c2cad2;
       --map-province-stroke: #8a949e;
+      --map-secondary-opacity: 0.2;
+      --map-secondary-stroke-opacity: 0.65;
+      --map-active-opacity: 0.9;
     }
 
     .dark {
@@ -43,6 +46,9 @@
       --map-mun-fill: #2a3650;
       --map-mun-stroke: #3c4a66;
       --map-province-stroke: #5b6c8c;
+      --map-secondary-opacity: 0.2;
+      --map-secondary-stroke-opacity: 0.8;
+      --map-active-opacity: 1;
     }
 
     @media (prefers-color-scheme: dark) {
@@ -64,6 +70,9 @@
         --map-mun-fill: #2a3650;
         --map-mun-stroke: #3c4a66;
         --map-province-stroke: #5b6c8c;
+        --map-secondary-opacity: 0.2;
+        --map-secondary-stroke-opacity: 0.8;
+        --map-active-opacity: 1;
       }
     }
 
@@ -159,13 +168,15 @@
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+      font-weight: 700;
     }
     .prediction-secondary {
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
-      font-weight: 500;
-      opacity: 0.55;
+      font-weight: 400;
+      font-size: 0.8rem;
+      opacity: 0.5;
     }
     .prediction-secondary:empty { display: none; }
 

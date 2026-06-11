@@ -62,20 +62,22 @@ function buildMapStyles() {
   ];
 
   for (const [label, info] of Object.entries(MODEL_LABELS)) {
-    // runner-up zone: same color, faint (rule first so active wins on ties)
+    // runner-up zone: same color, faint + dashed border (rule first so active wins on ties)
     rules.push(
       `svg[data-secondary-label="${label}"] .mun[data-model-label="${label}"] {
          fill: ${info.color};
-         fill-opacity: 0.3;
+         fill-opacity: var(--map-secondary-opacity, 0.25);
          stroke: ${info.color};
-         stroke-opacity: 0.4;
+         stroke-opacity: var(--map-secondary-stroke-opacity, 0.7);
+         stroke-width: 0.8;
+         stroke-dasharray: 2 1.5;
        }`
     );
     // active zone: full color
     rules.push(
       `svg[data-active-label="${label}"] .mun[data-model-label="${label}"] {
          fill: ${info.color};
-         fill-opacity: 0.9;
+         fill-opacity: var(--map-active-opacity, 0.9);
          stroke: ${info.color};
        }`
     );
