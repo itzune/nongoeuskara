@@ -386,6 +386,30 @@
     .chatbar textarea:focus {
       border-color: var(--color-input-focus);
     }
+    .textarea-wrap {
+      flex: 1;
+      position: relative;
+      display: flex;
+    }
+    .length-warning {
+      position: absolute;
+      bottom: 10px;
+      right: 12px;
+      display: none;
+      align-items: center;
+      color: #f59e0b;
+      opacity: 0.8;
+      cursor: help;
+      line-height: 0;
+      pointer-events: auto;
+    }
+    .length-warning.visible { display: flex; }
+    .length-warning:hover { opacity: 1; }
+    .tooltip.multiline {
+      white-space: normal;
+      max-width: 260px;
+      line-height: 1.45;
+    }
 
     /* Tooltip */
     .tooltip {
@@ -453,12 +477,17 @@
     <div class="map-container" id="mapContainer"></div>
 
     <div class="chatbar">
-      <textarea 
-        id="textInput" 
-        rows="3" 
-        placeholder="Idatzi euskarazko testu bat hemen..."
-        autofocus
-      ></textarea>
+      <div class="textarea-wrap">
+        <textarea 
+          id="textInput" 
+          rows="3" 
+          placeholder="Idatzi euskarazko testu bat hemen..."
+          autofocus
+        ></textarea>
+        <span class="length-warning" id="lengthWarning" aria-label="Esaldi laburregia">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/></svg>
+        </span>
+      </div>
     </div>
   </div>
 
@@ -505,12 +534,39 @@
       updateToggleIcon();
     });
 
-    // Auto-resize textarea
+    // Auto-resize textarea + short-text warning (UI only, never blocks prediction)
     const textarea = document.getElementById("textInput");
+    const lengthWarning = document.getElementById("lengthWarning");
+    const MIN_WORDS = 8;
+    const LENGTH_HINT = "Esaldi laburregia: idatzi esaldi oso bat (gutxienez 8 hitz) emaitza fidagarriagoa lortzeko.";
+    const mapTooltip = document.getElementById("tooltip");
+
+    function updateLengthWarning() {
+      const words = textarea.value.trim().split(/\s+/).filter(Boolean).length;
+      lengthWarning.classList.toggle("visible", words > 0 && words < MIN_WORDS);
+    }
+
+    lengthWarning.addEventListener("mouseenter", (e) => {
+      if (!mapTooltip || !lengthWarning.classList.contains("visible")) return;
+      mapTooltip.textContent = LENGTH_HINT;
+      mapTooltip.classList.add("visible", "multiline");
+      mapTooltip.style.left = `${e.clientX + 14}px`;
+      mapTooltip.style.top = `${e.clientY + 14}px`;
+    });
+    lengthWarning.addEventListener("mousemove", (e) => {
+      if (!mapTooltip?.classList.contains("visible")) return;
+      mapTooltip.style.left = `${e.clientX + 14}px`;
+      mapTooltip.style.top = `${e.clientY + 14}px`;
+    });
+    lengthWarning.addEventListener("mouseleave", () => {
+      mapTooltip?.classList.remove("visible", "multiline");
+    });
     textarea.addEventListener("input", () => {
       textarea.style.height = "auto";
       textarea.style.height = Math.min(textarea.scrollHeight, 180) + "px";
+      updateLengthWarning();
     });
+    updateLengthWarning();
   </script>
 
   <script type="module" src="/nongoeuskara/src/map.js"></script>

@@ -17,8 +17,6 @@ import {
   DIALECT_NAMES,
 } from "/src/zeineuski.js";
 
-const HF_REPO = "https://huggingface.co/itzune/zeineuski";
-
 const BINARY_NAMES = {
   batua: "Euskara batua",
   dialectal: "Euskalkia (ez-batua)",
@@ -100,38 +98,6 @@ function renderZeineuskiSections(detailed) {
   );
 }
 
-function renderTraceSection(azpiResult) {
-  const label = azpiResult.azpieuskalki;
-  const labels = window.euskalkid?.MODEL_LABELS || {};
-  const euskalkiOf = window.euskalkid?.EUSKALKI_OF || {};
-  const euskalkiNames = window.euskalkid?.EUSKALKI_NAMES || {};
-
-  let mapping = "";
-  if (label) {
-    const eus = euskalkiNames[euskalkiOf[label]] || "—";
-    mapping = `<p><strong>Etiketa:</strong> <code>${esc(label)}</code> → ${esc(eus)} (euskalkia)</p>`;
-  }
-
-  let towns = "";
-  if (azpiResult.towns?.length) {
-    const sample = azpiResult.towns.slice(0, 12).join(", ");
-    const more = azpiResult.towns.length > 12 ? ` … (${azpiResult.towns.length} herri)` : "";
-    towns = `<p><strong>Ahotsak herriak:</strong> ${esc(sample)}${esc(more)}</p>`;
-  }
-
-  return section(
-    "Trazabilitatea",
-    `${mapping}${towns}
-     <p><strong>Ereduak</strong> (<a href="${HF_REPO}" target="_blank" rel="noopener">HuggingFace: itzune/zeineuski</a>):</p>
-     <ul class="detail-models">
-       <li><code>hier_binary_web.bin</code> — batua / dialektala (21MB)</li>
-       <li><code>hier_dialect_web.bin</code> — 5 euskalki (13MB)</li>
-       <li><code>azpieuskalki_q.bin</code> — 12 azpieuskalki, kuantizatua</li>
-     </ul>
-     <p><strong>Datuak:</strong> <a href="https://ahotsak.eus/" target="_blank" rel="noopener">Ahotsak.eus</a> herri-esleipenak (430 herri, 19 etiketa → 12 klase)</p>`
-  );
-}
-
 function render(text) {
   let azpiResult;
   try {
@@ -142,10 +108,9 @@ function render(text) {
   }
 
   const azpiHtml = renderAzpiSection(azpiResult);
-  const traceHtml = renderTraceSection(azpiResult);
 
   if (zeineuskiReady) {
-    modalBody.innerHTML = renderZeineuskiSections(predictDetailed(text)) + azpiHtml + traceHtml;
+    modalBody.innerHTML = renderZeineuskiSections(predictDetailed(text)) + azpiHtml;
     return;
   }
 
@@ -154,8 +119,7 @@ function render(text) {
     `<section class="detail-section"><h3>1–2 · Batua / Euskalkia</h3>
        <p class="detail-empty" id="zeineuskiStatus">Ereduak kargatzen (34MB)…</p>
      </section>` +
-    azpiHtml +
-    traceHtml;
+    azpiHtml;
 
   zeineuskiLoading ||= loadZeineuski((msg) => {
     const el = document.getElementById("zeineuskiStatus");
