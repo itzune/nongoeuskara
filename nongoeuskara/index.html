@@ -85,11 +85,15 @@
     .header {
       display: flex;
       align-items: center;
-      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 6px 12px;
       padding: 12px 20px;
       border-bottom: 1px solid var(--color-border);
       background: var(--color-panel);
       flex-shrink: 0;
+    }
+    .header .theme-toggle {
+      margin-left: auto;
     }
     .header h1 {
       font-size: 1.35rem;
@@ -138,6 +142,14 @@
       overflow: hidden;
     }
     .prediction-badge.visible { display: flex; }
+    @media (max-width: 600px) {
+      .prediction-badge.visible {
+        order: 3;
+        width: 100%;
+        max-width: 100%;
+        border-radius: 10px;
+      }
+    }
     .prediction-swatch {
       width: 12px;
       height: 12px;
@@ -260,13 +272,11 @@
 </head>
 <body>
   <header class="header">
-    <div style="display:flex;align-items:center;gap:12px;">
-      <h1><span class="brand-nongo">nongo</span>euskara<span class="brand-q">?</span></h1>
-      <div class="prediction-badge" id="predictionBadge">
-        <div class="prediction-swatch" id="predictionSwatch"></div>
-        <span class="prediction-name" id="predictionName"></span>
-        <span class="prediction-secondary" id="predictionSecondary"></span>
-      </div>
+    <h1><span class="brand-nongo">nongo</span>euskara<span class="brand-q">?</span></h1>
+    <div class="prediction-badge" id="predictionBadge">
+      <div class="prediction-swatch" id="predictionSwatch"></div>
+      <span class="prediction-name" id="predictionName"></span>
+      <span class="prediction-secondary" id="predictionSecondary"></span>
     </div>
     <button class="theme-toggle" id="themeToggle" title="Aldatu gaia">
       <span class="theme-icon-dark">☀️</span>
