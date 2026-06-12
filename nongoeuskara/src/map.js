@@ -11,6 +11,7 @@
  * a generated stylesheet colors the matching municipalities. O(1) per update,
  * with smooth fill transitions.
  */
+import { ZUERRERA_REGION } from "../../src/towns.js";
 
 const MODEL_LABELS = {
   "mendebal-sartaldea":   { name: "Mendebal-sartaldea",   color: "#8b5cf6" },
@@ -142,7 +143,11 @@ function buildMapStyles() {
   return style;
 }
 
-function getZoneName(label) {
+function getZoneName(label, townName) {
+  // For zuberera towns, use the subdialect (Basabürüa / Pettarrakoa) from Ahotsak
+  if (label === "zuberera" && townName && ZUERRERA_REGION[townName]) {
+    return ZUERRERA_REGION[townName];
+  }
   return MODEL_LABELS[label]?.name || null;
 }
 
@@ -160,7 +165,7 @@ function moveTooltip(event) {
 function showTooltip(path, event) {
   const name = path.dataset.name;
   if (!name) return;
-  const zone = getZoneName(path.dataset.modelLabel);
+  const zone = getZoneName(path.dataset.modelLabel, name);
   tooltip.innerHTML = "";
   const strong = document.createElement("strong");
   strong.textContent = name;

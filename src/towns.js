@@ -454,3 +454,57 @@ export const AZPIEUSKALKI_TOWNS = {
     "Ürrüstoi\u002DLarrabile"
   ],
 };
+
+/**
+ * Zuberera subdialect classification per Ahotsak (ahotsak.eus/euskalkiak/zuberotarra/).
+ * Maps town name → subdialect. Used by the map tooltip.
+ */
+export const ZUERRERA_REGION = {
+  // Basabürüa (upper Soule)
+  "Aloze-Ziboze-Onizegaine": "Basabürüa",
+  "Altzai-Altzabeheti-Zunharreta": "Basabürüa",
+  "Altzürükü": "Basabürüa",
+  "Arrokiaga": "Basabürüa",
+  "Atharratze-Sorholüze": "Basabürüa",
+  "Barkoxe": "Basabürüa",
+  "Eskiula": "Basabürüa",
+  "Etxebarre": "Basabürüa",
+  "Gamere-Zihiga": "Basabürüa",
+  "Garindaine": "Basabürüa",
+  "Gotaine-Irabarne": "Basabürüa",
+  "Hauze": "Basabürüa",
+  "Idauze-Mendi": "Basabürüa",
+  "Iruri": "Basabürüa",
+  "Lakarri-Arhane-Sarrikotagaine": "Basabürüa",
+  "Larraine": "Basabürüa",
+  "Lexantzü-Zunharre": "Basabürüa",
+  "Ligi-Atherei": "Basabürüa",
+  "Liginaga-Astüe": "Basabürüa",
+  "Mendikota": "Basabürüa",
+  "Montori-Berorize": "Basabürüa",
+  "Montori": "Basabürüa",
+  "Muskildi": "Basabürüa",
+  "Ozaze-Zühara": "Basabürüa",
+  "Pagola": "Basabürüa",
+  "Santa Grazi": "Basabürüa",
+  "Urdatx / Santa Grazi": "Basabürüa",
+  "Urdiñarbe": "Basabürüa",
+  "Zalgize-Doneztebe": "Basabürüa",
+
+  // Pettarrakoa (lower Soule)
+  "Ainharbe": "Pettarrakoa",
+  "Arüe-Ithorrotze-Olhaibi": "Pettarrakoa",
+  "Berrogaine-Larüntze": "Pettarrakoa",
+  "Bildoze-Onizepea": "Pettarrakoa",
+  "Domintxaine-Berroeta": "Pettarrakoa",
+  "Ezpeize-Ündüreine": "Pettarrakoa",
+  "Jeztaze": "Pettarrakoa",
+  "Lohitzüne-Oihergi": "Pettarrakoa",
+  "Maule-Lextarre": "Pettarrakoa",
+  "Mitikile-Larrori-Mendibile": "Pettarrakoa",
+  "Ospitalepea": "Pettarrakoa",
+  "Ozaraine-Erribareita": "Pettarrakoa",
+  "Sarrikotapea": "Pettarrakoa",
+  "Sohüta": "Pettarrakoa",
+  "Ürrüstoi-Larrabile": "Pettarrakoa",
+};
