@@ -27,7 +27,6 @@ export default defineConfig({
     rollupOptions: {
       input: {
         main: "index.html",
-        nongoeuskara: "nongoeuskara/index.html",
       },
       output: {
         // Put all shared dependencies into one chunk — prevents

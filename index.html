@@ -391,10 +391,31 @@
       position: relative;
       display: flex;
     }
-    .length-warning {
+    .dice-btn {
       position: absolute;
       bottom: 10px;
       right: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: none;
+      border: none;
+      color: var(--color-muted);
+      cursor: pointer;
+      padding: 4px;
+      border-radius: 6px;
+      transition: color 0.2s, background 0.2s;
+      line-height: 0;
+      z-index: 2;
+    }
+    .dice-btn:hover {
+      color: var(--color-accent);
+      background: var(--color-input-bg);
+    }
+    .length-warning {
+      position: absolute;
+      bottom: 10px;
+      right: 40px;
       display: none;
       align-items: center;
       color: #f59e0b;
@@ -484,6 +505,9 @@
           placeholder="Idatzi euskarazko testu bat hemen..."
           autofocus
         ></textarea>
+        <button class="dice-btn" id="diceBtn" title="Ausazko adibidea" aria-label="Ausazko adibidea">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><path d="M16 8h.01M8 8h.01M8 16h.01M16 16h.01M12 12h.01"/></svg>
+        </button>
         <span class="length-warning" id="lengthWarning" aria-label="Esaldi laburregia">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/></svg>
         </span>
@@ -536,6 +560,7 @@
 
     // Auto-resize textarea + short-text warning (UI only, never blocks prediction)
     const textarea = document.getElementById("textInput");
+    const diceBtn = document.getElementById("diceBtn");
     const lengthWarning = document.getElementById("lengthWarning");
     const MIN_WORDS = 8;
     const LENGTH_HINT = "Esaldi laburregia: idatzi esaldi oso bat (gutxienez 8 hitz) emaitza fidagarriagoa lortzeko.";
@@ -546,17 +571,27 @@
       lengthWarning.classList.toggle("visible", words > 0 && words < MIN_WORDS);
     }
 
+    function positionTooltip(event) {
+      if (!mapTooltip) return;
+      const gap = 14;
+      const rect = mapTooltip.getBoundingClientRect();
+      const h = rect.height || 60; // estimate if not yet measured
+      let top = event.clientY - h - gap;
+      // If it doesn't fit above, place it below as fallback
+      if (top < 8) top = event.clientY + gap;
+      mapTooltip.style.left = `${event.clientX + gap}px`;
+      mapTooltip.style.top = `${top}px`;
+    }
+
     lengthWarning.addEventListener("mouseenter", (e) => {
       if (!mapTooltip || !lengthWarning.classList.contains("visible")) return;
       mapTooltip.textContent = LENGTH_HINT;
       mapTooltip.classList.add("visible", "multiline");
-      mapTooltip.style.left = `${e.clientX + 14}px`;
-      mapTooltip.style.top = `${e.clientY + 14}px`;
+      positionTooltip(e);
     });
     lengthWarning.addEventListener("mousemove", (e) => {
       if (!mapTooltip?.classList.contains("visible")) return;
-      mapTooltip.style.left = `${e.clientX + 14}px`;
-      mapTooltip.style.top = `${e.clientY + 14}px`;
+      positionTooltip(e);
     });
     lengthWarning.addEventListener("mouseleave", () => {
       mapTooltip?.classList.remove("visible", "multiline");
@@ -567,6 +602,30 @@
       updateLengthWarning();
     });
     updateLengthWarning();
+
+    // Example sentences (one per azpieuskalki, from the model's held-out test set)
+    const EXAMPLES = [
+      "Bakizu, refugiaduek ta honek zerak, eurek hartun ezan dauie alaba batelez.",
+      "Bai. Inguru hartatiken jende asko jun zan? Eztakit nik zenbat jende jungo zan.",
+      "Zea erdiyan, zea, zolua du gotti tximiniya atea 'ta handikan bota geo zea, brasa.",
+      "Jendea garbitzen zen uda partean hagitz ongi, zertaz han garbitu labaderoan arropa eta garbia gelditzen zen!",
+      "Ta, ya, bee herrira hots ein zuten 'a ver' balen bazegon neskaan bat nehi zubena fatie, beraakin ezkontzia.",
+      "Eta goraintziak bialdu etxera! Eta, eta ni aspaldin ez girela, e, ikusi ez dugu elkar.",
+      "Amak ez zien mintzatzen kaskoina, bana aitatxik ba.",
+      "Eta gero aitu gintuen Hitler zela, Hendaiat etorria Francorekin elkarrizketa eiteat.",
+      "Eta gero etxera xoan eta zer egitan zen, e, aigaritako? Pues… aigaltako? Aigal ona egitan zen, e? Ona, 'y tan' ona!",
+      "Bai, eztakit zer adina zan, bainan nik uste det hamabi tiru eman zizkiotela behintzat, bai.",
+      "oono beste etxe batetaa ba. Bai? Bai. Eta hona noiz etorri zinen? En cinquante-et-un jinak gintian Domintxineat.",
+      "Eskualduna zen buxer hura, eta erran zion: Ez nauzu hartuko, Agustin, zerori, xahal hori, guk etxian badugu hori.",
+    ];
+
+    // Dice button: pick a random example and fill the textarea
+    diceBtn.addEventListener("click", () => {
+      const ex = EXAMPLES[Math.floor(Math.random() * EXAMPLES.length)];
+      textarea.value = ex;
+      textarea.dispatchEvent(new Event("input"));
+      textarea.focus();
+    });
   </script>
 
   <script type="module" src="/nongoeuskara/src/map.js"></script>
