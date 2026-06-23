@@ -43,21 +43,31 @@ The WASM binary (`fastText.common.wasm`) must be placed in `public/`:
 cp node_modules/fasttext.wasm.js/dist/core/fastText.common.wasm public/
 ```
 
+## Data Sources
+
+The classification models are trained on the following datasets:
+
+| Source | Content | Type |
+|--------|---------|------|
+| [Ahotsak.eus](https://ahotsak.eus/) | Oral history transcriptions from 300+ Basque municipalities (municipality → azpieuskalki mapping) | Spoken |
+| [Catalog of Basque Dialects](https://github.com/hitz-zentroa/Catalog-of-Basque-Dialects) | 18th-20th century annotated dialectal texts by HitZ Zentroa | Written |
+| [Klasikoak](https://klasikoak.armiarma.eus/) | Classical Basque literature (author birthplace → dialect) | Written |
+| [SÜ AZIA](https://web.archive.org/web/20110920103304/http://www.suazia.com) | Zuberotarra pastoral plays + blog articles | Written |
+
+For full details, see the [Zeineuski training data documentation](https://github.com/itzune/zeineuski#training-data-sources).
+
 ## Deployment
 
-GitHub Pages serves from the `gh-pages` branch. A simple `git push` to `main` does **not** update the live website — you must rebuild and deploy manually:
+GitHub Actions automatically builds and deploys on every push to `main`. The site is served from the `gh-pages` branch.
+
+You can also deploy manually:
 
 ```bash
 npm run build      # Vite build → dist/
 npm run deploy     # gh-pages -d dist (pushes dist/ to gh-pages branch)
 ```
 
-The `deploy` script runs `npm run build && gh-pages -d dist`. After pushing, GitHub automatically runs the "pages build and deployment" workflow (~30-60s). Verify with:
-```bash
-curl -s https://itzune.eus/nongoeuskara/nongoeuskara/index.html | grep -oP 'src="/nongoeuskara/assets/[^"]+\.js"'
-```
-
 ## Related
 
-- [Zeineuski main repo](https://github.com/xezpeleta/zeineuski) — Python/CLI tools
+- [Zeineuski](https://github.com/itzune/zeineuski) — Python/CLI tools, model training, evaluation
 - [itzune/zeineuski](https://huggingface.co/itzune/zeineuski) — Hugging Face models
