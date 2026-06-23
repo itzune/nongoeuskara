@@ -527,14 +527,59 @@
     </div>
   </div>
 
+  <div class="modal-overlay" id="dataSourcesModal" role="dialog" aria-modal="true" aria-labelledby="dataSourcesTitle">
+    <div class="modal">
+      <div class="modal-header">
+        <h2 id="dataSourcesTitle">Datu-iturriak</h2>
+        <button class="modal-close" id="dataSourcesClose" title="Itxi">×</button>
+      </div>
+      <div class="modal-body">
+        <p>Eredu hauek ondorengo datu-iturriekin entrenatu dira:</p>
+
+        <div class="detail-section">
+          <h3>Ahotsak.eus</h3>
+          <p><a href="https://ahotsak.eus/" target="_blank" rel="noopener">Ahotsak.eus</a> — Ahozko historiaren grabaketen transkripzioak, 300 euskal udalerri baino gehiagotakoak. Udalerri → azpieuskalki mapaketa ofiziala erabiltzen du.</p>
+        </div>
+
+        <div class="detail-section">
+          <h3>Catalog of Basque Dialects</h3>
+          <p><a href="https://github.com/hitz-zentroa/Catalog-of-Basque-Dialects" target="_blank" rel="noopener">Catalog of Basque Dialects</a> — <a href="https://hitz.eus/" target="_blank" rel="noopener">HiTZ Zentroak</a> bildutako XVIII-XX. mendeko euskalkietako testu anotatuak, <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a> lizentziapean.</p>
+        </div>
+
+        <div class="detail-section">
+          <h3>Klasikoak</h3>
+          <p><a href="https://klasikoak.armiarma.eus/" target="_blank" rel="noopener">Klasikoak</a> — Euskarazko literatura klasikoaren corpusa. Egilearen jaioterriaren araberako euskalki etiketak erabiltzen dira.</p>
+        </div>
+
+        <div class="detail-section">
+          <h3>SÜ AZIA</h3>
+          <p><a href="https://web.archive.org/web/20110920103304/http://www.suazia.com" target="_blank" rel="noopener">SÜ AZIA</a> — Zuberotarraz idatzitako pastoral eta blog artikuluak. Zuberera klasearentzat datu-iturri kritikoa.</p>
+        </div>
+
+        <p style="margin-top:14px;opacity:0.6;font-size:0.8rem;">Informazio gehiago: <a href="https://github.com/itzune/zeineuski#training-data-sources" target="_blank" rel="noopener">Zeineuski dokumentazioa</a></p>
+      </div>
+    </div>
+  </div>
+
   <footer class="footer-bar">
-    Datu-iturriak: <a href="https://ahotsak.eus/">Ahotsak</a> +
-    <a href="https://github.com/hitz-zentroa/Catalog-of-Basque-Dialects">Catalog of Basque Dialects</a>
+    <a href="#" id="dataSourcesLink">Datu-iturriak</a>
   </footer>
 
   <script type="module" src="/nongoeuskara/src/ui.js"></script>
   <script type="module" src="/nongoeuskara/src/map.js"></script>
   <script type="module" src="/nongoeuskara/src/predict.js"></script>
   <script type="module" src="/nongoeuskara/src/details.js"></script>
+  <script>
+    (function() {
+      var link = document.getElementById("dataSourcesLink");
+      var modal = document.getElementById("dataSourcesModal");
+      var close = document.getElementById("dataSourcesClose");
+      if (!link || !modal) return;
+      link.addEventListener("click", function(e) { e.preventDefault(); modal.classList.add("open"); });
+      close.addEventListener("click", function() { modal.classList.remove("open"); });
+      modal.addEventListener("click", function(e) { if (e.target === modal) modal.classList.remove("open"); });
+      document.addEventListener("keydown", function(e) { if (e.key === "Escape" && modal.classList.contains("open")) modal.classList.remove("open"); });
+    })();
+  </script>
 </body>
 </html>
