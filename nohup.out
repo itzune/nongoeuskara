@@ -1,0 +1,253 @@
+
+> zeineuski-wasm@1.0.0 dev
+> vite
+
+
+  VITE v5.4.21  ready in 179 ms
+
+  ➜  Local:   http://localhost:3000/euskalkid/
+  ➜  Network: use --host to expose
+
+> zeineuski-wasm@1.0.0 dev
+> vite
+
+
+  VITE v5.4.21  ready in 172 ms
+
+  ➜  Local:   http://localhost:3000/euskalkid/
+  ➜  Network: use --host to expose
+20:20:49 [vite] page reload nongoeuskara/src/map.js
+20:21:29 [vite] page reload nongoeuskara/src/map.js
+20:23:57 [vite] page reload nongoeuskara/src/map.js
+20:24:45 [vite] page reload nongoeuskara/index.html
+20:26:03 [vite] page reload nongoeuskara/index.html
+20:26:13 [vite] page reload nongoeuskara/src/map.js
+20:26:21 [vite] page reload nongoeuskara/src/map.js
+20:26:23 [vite] page reload nongoeuskara/src/map.js
+20:27:29 [vite] page reload nongoeuskara/src/map.js
+20:30:10 [vite] page reload nongoeuskara/src/map.js
+20:32:35 [vite] page reload nongoeuskara/src/map.js
+20:39:49 [vite] page reload nongoeuskara/src/map.js
+20:44:58 [vite] page reload nongoeuskara/index.html
+20:45:12 [vite] page reload nongoeuskara/src/map.js
+20:47:09 [vite] page reload nongoeuskara/index.html
+20:48:22 [vite] page reload nongoeuskara/index.html
+20:51:36 [vite] page reload nongoeuskara/src/map.js
+20:51:51 [vite] page reload nongoeuskara/src/map.js
+20:51:53 [vite] page reload nongoeuskara/src/map.js
+20:52:00 [vite] page reload nongoeuskara/src/map.js
+20:54:01 [vite] page reload nongoeuskara/src/map.js
+20:54:10 [vite] page reload nongoeuskara/src/map.js
+20:54:12 [vite] page reload nongoeuskara/src/map.js
+20:54:16 [vite] page reload nongoeuskara/src/map.js
+20:54:21 [vite] page reload nongoeuskara/src/map.js
+20:57:44 [vite] page reload nongoeuskara/src/map.js
+20:58:20 [vite] page reload nongoeuskara/src/map.js
+20:58:32 [vite] page reload nongoeuskara/src/map.js
+21:01:07 [vite] page reload nongoeuskara/src/map.js
+21:01:47 [vite] page reload nongoeuskara/src/map.js
+21:02:13 [vite] page reload nongoeuskara/src/map.js
+21:06:34 [vite] page reload nongoeuskara/src/map.js
+21:06:39 [vite] page reload nongoeuskara/index.html
+21:08:55 [vite] page reload nongoeuskara/index.html
+21:08:55 [vite] page reload nongoeuskara/src/map.js
+21:19:33 [vite] page reload nongoeuskara/src/map.js
+21:38:08 [vite] page reload nongoeuskara/src/map.js
+21:38:26 [vite] page reload nongoeuskara/src/map.js
+21:38:29 [vite] page reload nongoeuskara/src/map.js
+21:39:34 [vite] page reload nongoeuskara/src/map.js
+21:41:46 [vite] page reload nongoeuskara/src/map.js
+21:44:10 [vite] page reload nongoeuskara/src/map.js
+21:49:07 [vite] page reload nongoeuskara/src/map.js
+21:49:11 [vite] page reload nongoeuskara/src/map.js
+21:53:19 [vite] page reload nongoeuskara/src/map.js
+21:53:21 [vite] page reload nongoeuskara/src/map.js
+22:08:30 [vite] page reload nongoeuskara/src/map.js
+22:08:41 [vite] page reload nongoeuskara/src/map.js
+22:08:45 [vite] page reload nongoeuskara/src/map.js
+22:15:33 [vite] page reload nongoeuskara/src/map.js
+22:15:37 [vite] page reload nongoeuskara/src/map.js
+22:15:44 [vite] page reload nongoeuskara/src/map.js
+22:17:34 [vite] page reload nongoeuskara/src/map.js
+22:17:44 [vite] page reload nongoeuskara/src/map.js
+22:20:58 [vite] page reload nongoeuskara/src/map.js
+22:21:05 [vite] page reload nongoeuskara/src/map.js
+22:21:09 [vite] page reload nongoeuskara/src/map.js
+22:21:51 [vite] page reload nongoeuskara/src/map.js
+22:22:36 [vite] page reload nongoeuskara/src/map.js
+22:22:42 [vite] page reload nongoeuskara/src/map.js
+22:23:07 [vite] page reload nongoeuskara/src/map.js
+22:27:36 [vite] page reload nongoeuskara/src/map.js
+22:27:42 [vite] page reload nongoeuskara/src/map.js
+22:27:45 [vite] page reload nongoeuskara/src/map.js
+22:56:30 [vite] page reload nongoeuskara/src/map.js
+22:56:34 [vite] page reload nongoeuskara/src/map.js
+22:59:45 [vite] page reload nongoeuskara/src/map.js
+23:01:49 [vite] page reload nongoeuskara/src/map.js
+23:01:54 [vite] page reload nongoeuskara/src/map.js
+23:03:48 [vite] page reload nongoeuskara/src/map.js
+23:03:53 [vite] page reload nongoeuskara/src/map.js
+23:04:04 [vite] page reload nongoeuskara/src/map.js
+23:04:08 [vite] page reload nongoeuskara/src/map.js
+23:04:16 [vite] page reload nongoeuskara/src/map.js
+23:04:29 [vite] page reload nongoeuskara/src/map.js
+08:54:39 [vite] page reload nongoeuskara/src/map.js
+08:54:53 [vite] page reload nongoeuskara/index.html
+08:54:57 [vite] page reload nongoeuskara/index.html
+08:54:58 [vite] page reload nongoeuskara/index.html
+08:55:13 [vite] page reload nongoeuskara/index.html
+09:20:46 [vite] page reload nongoeuskara/src/map.js
+09:20:53 [vite] page reload nongoeuskara/src/map.js
+09:20:55 [vite] page reload nongoeuskara/src/map.js
+09:21:05 [vite] page reload nongoeuskara/src/predict.js
+09:21:08 [vite] page reload nongoeuskara/index.html
+09:21:10 [vite] page reload nongoeuskara/index.html
+09:21:19 [vite] page reload nongoeuskara/index.html
+09:22:18 [vite] page reload nongoeuskara/src/predict.js
+09:22:54 [vite] page reload nongoeuskara/src/predict.js
+09:24:37 [vite] page reload nongoeuskara/src/predict.js
+09:25:07 [vite] page reload nongoeuskara/src/predict.js
+09:25:09 [vite] page reload nongoeuskara/src/predict.js
+20:53:35 [vite] page reload v1/azpieuskalki.html
+20:53:35 [vite] page reload v1/index.html
+20:53:35 [vite] page reload index.html
+20:53:35 [vite] page reload azpieuskalki.html
+20:53:40 [vite] page reload index.html
+20:55:10 [vite] page reload index.html
+20:55:10 [vite] Pre-transform error: Failed to load url /zeineuski-wasm/assets/index-CeCM58U1.js (resolved id: /zeineuski-wasm/assets/index-CeCM58U1.js). Does the file exist?
+20:55:10 [vite] Pre-transform error: Failed to load url /zeineuski-wasm/assets/index-CeCM58U1.js (resolved id: /zeineuski-wasm/assets/index-CeCM58U1.js). Does the file exist?
+20:55:10 [vite] page reload nongoeuskara/index.html
+20:55:10 [vite] page reload nongoeuskara/src/map.js
+20:55:10 [vite] page reload nongoeuskara/src/predict.js
+20:55:10 [vite] page reload src/azpieuskalki.js
+20:55:10 [vite] page reload src/main.js
+20:55:10 [vite] vite.config.js changed, restarting server...
+20:55:10 [vite] page reload src/theme.js
+20:55:10 [vite] page reload src/towns.js
+20:55:10 [vite] page reload src/zeineuski.js
+20:55:10 [vite] server restarted.
+
+  ➜  Local:   http://localhost:3000/
+  ➜  Network: use --host to expose
+20:55:15 [vite] page reload index.html
+20:55:15 [vite] page reload nongoeuskara/index.html
+20:55:17 [vite] page reload index.html
+20:55:17 [vite] page reload nongoeuskara/index.html
+20:55:21 [vite] page reload index.html
+20:55:24 [vite] page reload nongoeuskara/index.html
+20:55:36 [vite] page reload azpieuskalki.html
+20:55:36 [vite] page reload index.html
+20:55:36 [vite] page reload nongoeuskara/index.html
+20:55:37 [vite] page reload index.html
+20:55:37 [vite] page reload azpieuskalki.html
+20:55:38 [vite] page reload nongoeuskara/index.html
+20:57:21 [vite] page reload index.html
+20:57:22 [vite] page reload nongoeuskara/index.html
+21:01:12 [vite] page reload index.html
+21:01:12 [vite] page reload nongoeuskara/index.html
+21:01:47 [vite] page reload index.html
+21:01:47 [vite] page reload nongoeuskara/index.html
+21:01:49 [vite] page reload index.html
+21:01:49 [vite] page reload nongoeuskara/index.html
+21:01:58 [vite] page reload index.html
+21:01:58 [vite] page reload nongoeuskara/index.html
+21:07:50 [vite] page reload index.html
+21:07:50 [vite] page reload nongoeuskara/index.html
+21:07:52 [vite] page reload index.html
+21:07:52 [vite] page reload nongoeuskara/index.html
+21:07:58 [vite] page reload index.html
+21:07:58 [vite] page reload nongoeuskara/index.html
+21:08:58 [vite] page reload index.html
+21:08:58 [vite] page reload nongoeuskara/index.html
+21:09:25 [vite] page reload index.html
+21:09:25 [vite] page reload nongoeuskara/index.html
+21:14:24 [vite] page reload nongoeuskara/index.html
+21:14:29 [vite] page reload nongoeuskara/index.html
+21:15:41 [vite] ✨ optimized dependencies changed. reloading
+21:17:02 [vite] page reload index.html
+21:17:09 [vite] page reload index.html
+21:17:41 [vite] page reload index.html
+21:17:41 [vite] page reload nongoeuskara/index.html
+21:20:18 [vite] page reload src/azpieuskalki.js
+21:25:25 [vite] page reload index.html
+21:25:30 [vite] page reload index.html
+21:25:36 [vite] page reload index.html
+21:25:45 [vite] page reload nongoeuskara/index.html
+21:25:49 [vite] page reload nongoeuskara/index.html
+21:25:55 [vite] page reload nongoeuskara/index.html
+21:28:29 [vite] page reload index.html
+21:28:36 [vite] page reload index.html
+21:28:43 [vite] page reload nongoeuskara/index.html
+21:28:50 [vite] page reload nongoeuskara/index.html
+21:30:39 [vite] page reload index.html
+21:30:46 [vite] page reload nongoeuskara/index.html
+21:33:10 [vite] page reload index.html
+21:33:15 [vite] page reload nongoeuskara/index.html
+21:35:10 [vite] page reload nongoeuskara/src/map.js
+21:35:15 [vite] page reload index.html
+21:35:22 [vite] page reload index.html
+21:35:35 [vite] page reload index.html
+21:35:42 [vite] page reload nongoeuskara/index.html
+21:35:51 [vite] page reload nongoeuskara/index.html
+21:35:58 [vite] page reload nongoeuskara/index.html
+21:38:25 [vite] page reload nongoeuskara/src/map.js
+21:38:31 [vite] page reload index.html
+21:38:35 [vite] page reload index.html
+21:38:41 [vite] page reload index.html
+21:38:46 [vite] page reload nongoeuskara/index.html
+21:38:52 [vite] page reload nongoeuskara/index.html
+21:38:57 [vite] page reload nongoeuskara/index.html
+21:44:55 [vite] page reload index.html
+21:45:00 [vite] page reload index.html
+21:45:20 [vite] page reload index.html
+21:45:28 [vite] page reload nongoeuskara/index.html
+21:45:33 [vite] page reload nongoeuskara/index.html
+21:45:51 [vite] page reload nongoeuskara/index.html
+21:57:37 [vite] page reload nongoeuskara/src/map.js
+21:57:47 [vite] page reload nongoeuskara/src/map.js
+21:57:55 [vite] page reload nongoeuskara/src/map.js
+21:58:01 [vite] page reload nongoeuskara/src/map.js
+21:58:07 [vite] page reload index.html
+21:58:14 [vite] page reload index.html
+21:58:21 [vite] page reload index.html
+21:58:28 [vite] page reload nongoeuskara/index.html
+21:58:35 [vite] page reload nongoeuskara/index.html
+21:58:42 [vite] page reload nongoeuskara/index.html
+22:07:21 [vite] page reload nongoeuskara/src/map.js
+22:07:30 [vite] page reload nongoeuskara/src/map.js
+22:15:32 [vite] page reload nongoeuskara/src/map.js
+22:15:41 [vite] page reload nongoeuskara/src/map.js
+22:15:48 [vite] page reload nongoeuskara/src/map.js
+22:16:06 [vite] page reload nongoeuskara/src/predict.js
+22:16:14 [vite] page reload nongoeuskara/src/predict.js
+22:16:23 [vite] page reload nongoeuskara/src/predict.js
+22:17:48 [vite] page reload index.html
+22:18:00 [vite] page reload index.html
+22:18:10 [vite] page reload index.html
+22:18:20 [vite] page reload index.html
+22:18:33 [vite] page reload nongoeuskara/index.html
+22:19:41 [vite] page reload src/zeineuski.js
+22:20:54 [vite] page reload src/zeineuski.js
+22:21:04 [vite] page reload nongoeuskara/src/details.js
+22:23:56 [vite] page reload nongoeuskara/src/details.js
+22:24:13 [vite] page reload nongoeuskara/src/details.js
+22:24:21 [vite] page reload nongoeuskara/src/details.js
+22:27:34 [vite] page reload index.html
+22:27:46 [vite] page reload index.html
+22:28:02 [vite] page reload index.html
+22:28:10 [vite] page reload nongoeuskara/index.html
+22:31:30 [vite] page reload index.html
+22:31:44 [vite] page reload index.html
+22:32:00 [vite] page reload index.html
+22:32:22 [vite] page reload nongoeuskara/index.html
+22:36:49 [vite] page reload nongoeuskara/index.html
+22:36:49 [vite] page reload nongoeuskara/src/map.js
+22:36:49 [vite] page reload nongoeuskara/src/predict.js
+22:36:49 [vite] page reload nongoeuskara/src/details.js
+22:36:49 [vite] page reload v1/azpieuskalki.html
+22:36:49 [vite] page reload v1/index.html
+22:36:49 [vite] page reload index.html
+22:36:49 [vite] page reload src/azpieuskalki.js
+22:36:49 [vite] page reload src/theme.js
+22:36:49 [vite] page reload src/towns.js
+22:36:49 [vite] page reload src/zeineuski.js

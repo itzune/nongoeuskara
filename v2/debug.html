@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="UTF-8"><title>Map debug</title>
+<style>
+  body { margin: 0; font-family: sans-serif; }
+  #mapContainer { width: 900px; height: 700px; border: 2px solid red; margin: 20px auto; }
+  #log { margin: 20px; white-space: pre-wrap; font-family: monospace; font-size: 12px; }
+</style>
+</head>
+<body>
+<div id="mapContainer"></div>
+<div id="log"></div>
+<script type="module">
+const log = document.getElementById("log");
+function l(msg) { log.textContent += msg + "\n"; console.log(msg); }
+l("Starting...");
+
+try { l("Importing d3..."); const d3 = await import("/nongoeuskara/node_modules/.vite/deps/d3.js?v=1b92083c"); l("d3 imported OK: " + Object.keys(d3).length + " keys"); }
+catch(e) { l("d3 FAIL: " + e.message); }
+
+try { l("Importing topojson..."); const topojson = await import("/nongoeuskara/node_modules/.vite/deps/topojson-client.js?v=1b92083c"); l("topojson imported OK: " + Object.keys(topojson).join(", ")); }
+catch(e) { l("topojson FAIL: " + e.message); }
+
+l("Fetching TopoJSON...");
+try {
+  const resp = await fetch("/nongoeuskara/euskal-herria.json");
+  l("Fetch status: " + resp.status);
+  const topo = await resp.json();
+  l("Topo type: " + topo.type + ", objects: " + Object.keys(topo.objects).join(", "));
+} catch(e) { l("Fetch FAIL: " + e.message); }
+
+l("Done.");
+</script>
+</body>
+</html>

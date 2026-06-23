@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="UTF-8"><title>Map debug 2</title>
+<style>
+  body { margin: 0; font-family: sans-serif; }
+  #map { width: 900px; height: 700px; border: 2px solid red; margin: 20px auto; background: #fff; }
+  #log { margin: 20px; white-space: pre-wrap; font-family: monospace; font-size: 12px; max-height: 300px; overflow-y: auto; background: #f5f5f5; padding: 10px; }
+</style>
+</head>
+<body>
+<div id="map"></div>
+<div id="log"></div>
+<script type="module">
+const log = document.getElementById("log");
+function l(msg) { log.textContent += msg + "\n"; console.log(msg); }
+
+l("Starting...");
+
+const d3 = await import("/nongoeuskara/node_modules/.vite/deps/d3.js?v=1b92083c");
+const topojson = await import("/nongoeuskara/node_modules/.vite/deps/topojson-client.js?v=1b92083c");
+l("Modules OK");
+
+const resp = await fetch("/nongoeuskara/euskal-herria.json");
+const topo = await resp.json();
+l("Topo loaded: " + topo.type);
+
+const objName = Object.keys(topo.objects)[0];
+const geojson = topojson.feature(topo, topo.objects[objName]);
+l("GeoJSON type: " + geojson.type + ", features: " + geojson.features.length);
+
+// Check first feature
+const f0 = geojson.features[0];
+l("First: " + f0.type + " / " + f0.geometry.type);
+
+// Set up projection
+const proj = d3.geoEquirectangular().fitSize([900, 700], geojson);
+const path = d3.geoPath(proj);
+l("Projection scale: " + proj.scale());
+
+// Render
+const mapDiv = document.getElementById("map");
+const svg = d3.select("#map")
+  .append("svg")
+  .attr("width", 900)
+  .attr("height", 700)
+  .attr("style", "display:block;");
+
+// Background
+svg.append("rect")
+  .attr("width", 900)
+  .attr("height", 700)
+  .attr("fill", "#ffffff");
+
+// Render paths
+svg.selectAll("path.mun")
+  .data(geojson.features)
+  .join("path")
+  .attr("class", "mun")
+  .attr("d", path)
+  .attr("fill", "#dde2e7")
+  .attr("stroke", "#888")
+  .attr("stroke-width", 0.3);
+
+l("Rendered " + geojson.features.length + " paths");
+
+// Check how many paths are actually in the DOM
+const paths = document.querySelectorAll("#map path.mun");
+l("DOM paths: " + paths.length + ", first d: " + (paths[0]?.getAttribute("d")?.slice(0, 50) || "N/A"));
+
+l("DONE");
+</script>
+</body>
+</html>
