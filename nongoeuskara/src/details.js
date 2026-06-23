@@ -113,9 +113,11 @@ function render(text) {
   }
 
   const azpiHtml = renderAzpiSection(azpiResult);
+  const sourcesLink = '<p style="margin-top:14px;font-size:0.8rem;opacity:0.7;"><a href="#" id="detailsToSources">Datu-iturriak</a></p>';
 
   if (zeineuskiReady) {
-    modalBody.innerHTML = renderZeineuskiSections(predictDetailed(text)) + azpiHtml;
+    modalBody.innerHTML = renderZeineuskiSections(predictDetailed(text)) + azpiHtml + sourcesLink;
+    wireSourcesLink();
     return;
   }
 
@@ -124,7 +126,9 @@ function render(text) {
     `<section class="detail-section"><h3>1–2 · Batua / Euskalkia</h3>
        <p class="detail-empty" id="zeineuskiStatus">Ereduak kargatzen (34MB)…</p>
      </section>` +
-    azpiHtml;
+    azpiHtml + sourcesLink;
+
+  wireSourcesLink();
 
   zeineuskiLoading ||= loadZeineuski((msg) => {
     const el = document.getElementById("zeineuskiStatus");
@@ -158,6 +162,17 @@ function openModal() {
 
 function closeModal() {
   modal.classList.remove("open");
+}
+
+function openSourcesModal() {
+  closeModal();
+  const sourcesModal = document.getElementById("dataSourcesModal");
+  if (sourcesModal) sourcesModal.classList.add("open");
+}
+
+function wireSourcesLink() {
+  const link = document.getElementById("detailsToSources");
+  if (link) link.addEventListener("click", function(e) { e.preventDefault(); openSourcesModal(); });
 }
 
 if (badgeDetails && modal && modalBody) {
